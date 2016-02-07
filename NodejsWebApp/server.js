@@ -1,29 +1,49 @@
-﻿
-
-var request = require('request');
 var http = require('http');
-var port = process.env.port || 1337;
+var Promise = require('promise');
+var express = require('express');
 
 
-//var promise = Promise;
-
-var returnRate = function (error, response, body) {
-        if (!error && response.statusCode === 200) {
-            obj = JSON.parse(body);
-            rates = obj.rates;
-            startServer(rates);
-        }
-    };
+var options = {
+  host: 'api.fixer.io',
+//  host: 'dummy',
+  port: 80,
+  path: '/latest'
+};
 
 
-function startServer(rates){
-    http.createServer(function (req, res) {
-        res.writeHead(200, { 'Content-Type': 'text/plain' });
-        res.end('rate = ' + JSON.stringify(rates));
-
-    }
-    ).listen(port);
-
+var getRate = function getExchangeRates(fullfill, reject) {
+	http.get(options, function(resp){
+	  resp.on('data', function(ratesJson){
+	    var liveRates = JSON.parse(ratesJson);
+	    liveRates.source = 'live';
+	    console.log("Got liveRates: " + JSON.stringify(liveRates));
+	    fullfill(liveRates);
+	  });
+	}).on("error", function(e){
+		// fallback to use saved rates
+		var cacheRates = require('./cachedRates.json');
+	    cacheRates.source = 'cached';
+		console.log("Use cacheRates: " + JSON.stringify(cacheRates));
+	    fullfill(cacheRates);
+	});
 }
 
-request('http://api.fixer.io/latest', returnRate);
+
+
+var app = express();
+
+app.get('/', function(req, res){
+	var promise = new Promise(getRate);
+	promise.then(function(rates){
+		console.log("Rates: " + JSON.stringify(rates));
+		res.send(JSON.stringify(rates));
+	});
+
+});
+
+
+app.listen(1234, function(){
+	console.log('app started...');
+});
+
+

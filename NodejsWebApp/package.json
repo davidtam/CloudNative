@@ -1,19 +1,46 @@
 {
-  "name": "NodejsWebApp",
-  "version": "0.0.0",
-  "description": "NodejsWebApp",
-  "main": "server.js",
-  "author": {
-    "name": "Dave",
-    "email": ""
-  }
-{
+  "name": "RateQuery",
+  "version": "0.0.1",
+  "description": "An example module to illustrate the usage of a package.json",
+  "author": "David Tam <david.tam@bjss.com>",
+  "contributors": [
+    {
+      "name": "David Tam",
+      "email": "david.tam@bjss.com"
+    }
+  ],
+  "bin": {
+    "module-name": "./bin/module-name"
+  },
+  "scripts": {
+    "test": "vows --spec --isolate",
+    "start": "node index.js",
+    "prepublish": "coffee --bare --compile --output lib/foo src/foo/*.coffee"
+  },
+  "main": "lib/foo.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nodejitsu/browsenpm.org"
+  },
   "dependencies": {
-      "aws-sdk": ">= 2.0.9",
-          "express": "^4.13.4",
-	      "node-uuid": ">= 1.4.1"
-	        }
-		}
-		
-		
-		}
+    "async": "~0.8.0",
+    "bigpipe": "bigpipe/pagelet",
+    "express": "^4.2.0",
+    "http-server": "^0.8.5",
+    "plates": "https://github.com/flatiron/plates/tarball/master",
+    "primus": "*",
+    "promise": "^7.1.1",
+    "winston": "git://github.com/flatiron/winston#master"
+  },
+  "devDependencies": {
+    "vows": "^0.7.0",
+    "assume": "<1.0.0 || >=2.3.1 <2.4.5 || >=2.5.2 <3.0.0",
+    "pre-commit": "*"
+  },
+  "preferGlobal": true,
+  "private": true,
+  "publishConfig": {
+    "registry": "https://your-private-hosted-npm.registry.nodejitsu.com"
+  },
+  "license": "MIT"
+}
