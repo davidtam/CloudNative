@@ -32,10 +32,12 @@ var getRate = function getExchangeRates(fullfill, reject) {
 
 var app = express();
 
-app.get('/', function(req, res){
-	var promise = new Promise(getRate);
+
+app.get('/currency/:CCY', function(req, res){
+    var promise = new Promise(getRate);
 	promise.then(function(rates){
 		console.log("Rates: " + JSON.stringify(rates));
+        console.log("CCY =  " + req.params.CCY);
 		res.send(JSON.stringify(rates));
 	});
 
