@@ -1,0 +1,19 @@
+{
+  "name": "NodejsWebApp",
+  "version": "0.0.0",
+  "description": "NodejsWebApp",
+  "main": "server.js",
+  "author": {
+    "name": "Dave",
+    "email": ""
+  }
+{
+  "dependencies": {
+      "aws-sdk": ">= 2.0.9",
+          "express": "^4.13.4",
+	      "node-uuid": ">= 1.4.1"
+	        }
+		}
+		
+		
+		}
