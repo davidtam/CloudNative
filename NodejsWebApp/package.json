@@ -20,17 +20,17 @@
   "main": "lib/foo.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/nodejitsu/browsenpm.org"
+    "url": "nodejitsu/browsenpm.org"
   },
   "dependencies": {
     "async": "~0.8.0",
-    "bigpipe": "bigpipe/pagelet",
+    "bigpipe": "*",
     "express": "^4.2.0",
     "http-server": "^0.8.5",
-    "plates": "https://github.com/flatiron/plates/tarball/master",
+    "flatiron": "*",
     "primus": "*",
     "promise": "^7.1.1",
-    "winston": "git://github.com/flatiron/winston#master"
+    "winston": "*"
   },
   "devDependencies": {
     "vows": "^0.7.0",
