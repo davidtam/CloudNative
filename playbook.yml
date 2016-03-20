@@ -6,12 +6,31 @@
       ping:
       remote_user: ec2-user
 
-    - copy: src=NodejsWebApp dest=/home/ec2-user owner=ec2-user group=ec2-user mode="u=rw"
+    - name: copy web app files
+      copy: src=NodejsWebApp dest=/home/ec2-user owner=ec2-user group=ec2-user mode="u=rw"
 
-    - yum:  pkg=npm state=latest enablerepo=epel
+    - name: yum install npm
+      yum:  pkg=npm state=latest enablerepo=epel
       sudo: yes
    
-    - npm: name=coffee-script global=yes
+    - name: npm install coffee-script
+      npm: name=coffee-script global=yes
       sudo: yes
 
-    - npm: path=/home/ec2-user/NodejsWebApp/
+    - name: nmp install web app
+      npm: path=/home/ec2-user/NodejsWebApp/
+
+    - name: "Install forever (to run Node.js app)."
+      npm: name=forever global=yes state=latest
+      sudo: yes
+   
+    - name: "Check list of Node.js apps running."
+      command: forever list
+      register: forever_list
+      changed_when: false
+
+    - name: "Start example Node.js app."
+      command: forever start /home/ec2-user/NodejsWebApp/server.js
+      when: "forever_list.stdout.find('/home/ec2-user/NodejsWebApp/server.js') == -1" 
+    
+
