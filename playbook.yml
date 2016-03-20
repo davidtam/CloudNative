@@ -5,3 +5,12 @@
     - name: test connection
       ping:
       remote_user: ec2-user
+
+    - copy: src=NodejsWebApp dest=/home/ec2-user owner=ec2-user group=ec2-user mode="u=rw"
+
+
+
+    - yum:  pkg=npm state=latest
+      sudo: yes
+   
+    - npm: path=/home/ec2-user/NodejsWebApp/
