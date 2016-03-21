@@ -1,30 +1,31 @@
 # demo_setup.yml
 
-#- hosts: localhost
- # vars:
-  #  ami_id: amzn-ami-hvm-2015.09.1.x86_64-gp2
-#  connection: local
- # gather_facts: False
+- hosts: aws
+  vars:
+    ami_id: amzn-ami-hvm-2015.09.1.x86_64-gp2
+  connection: local
+  gather_facts: False
 
-  #tasks:
+  tasks:
 
- #   - name: Provision a set of instances
-#      ec2:
-     #    key_name: my_key
-    #     group: test
-   #      instance_type: t2.micro
-  #       image: "{{ ami_id }}"
- #        wait: true
-#         exact_count: 1
-       #  count_tag:
-      #      Name: Demo
-     #    instance_tags:
-    #        Name: Demo
-   #   register: ec2
+    - name: Provision a set of instances
+      ec2:
+         key_name: my_key
+         group: test
+         instance_type: t2.micro
+         image: "{{ ami_id }}"
+         wait: true
+         exact_count: 1
+         count_tag:
+            Name: Demo
+         instance_tags:
+            Name: Demo
+         region: eu-west-1
+      register: ec2
 
-  #  - name: Add all instance public IPs to host group
- #     add_host: hostname={{ item.public_ip }} groups=ec2hosts
-#      with_items: ec2.instances
+    - name: Add all instance public IPs to host group
+      add_host: hostname={{ item.public_ip }} groups=ec2hosts
+      with_items: ec2.instances
 
 - hosts: aws
   name: configuration play
@@ -41,11 +42,11 @@
 
 
     #- name: Create subnet for database servers
-    - ec2_vpc_subnet:
-        state: present
-        cidr: 172.22.0.0/16
-        resource_tags: { "Environment":"Development" }
-      register: webserver_subnet
+#    - ec2_vpc_subnet:
+ #       state: present
+  #      cidr: 172.22.0.0/16
+   #     resource_tags: { "Environment":"Development" }
+    #  register: webserver_subnet
     
     - ec2:
         key_name: mykey
